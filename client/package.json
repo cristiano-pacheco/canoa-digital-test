@@ -11,6 +11,12 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "lint": "standard --parser=babel-eslint --verbose | snazzy",
+    "lint:fix": "standard --parser=babel-eslint --fix",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "snazzy": "^7.1.1",
+    "standard": "^11.0.1"
   }
 }
