@@ -1,12 +1,14 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-import Home from './home'
 import NotFound from './not-found'
+import VehicleList from './vehicle/list'
+import VehicleForm from './vehicle/form'
 
 const AppRoutes = () => (
   <Switch>
-    <Route exact path='/' component={Home} />
+    <Route exact path='/' component={VehicleList} />
+    <Route path='/add' component={VehicleForm} />
     <Route component={NotFound} />
   </Switch>
 )
