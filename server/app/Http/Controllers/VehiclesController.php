@@ -24,7 +24,7 @@ class VehiclesController extends Controller
      */
     public function index()
     {
-        $vehicles = $this->model->paginate();
+        $vehicles = $this->model->paginate(12);
 
         return response()->json($vehicles);
     }
