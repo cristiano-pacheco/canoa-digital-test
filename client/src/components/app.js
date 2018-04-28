@@ -1,9 +1,18 @@
 import React, { Component } from 'react'
+import { Container } from 'semantic-ui-react'
+
+import AppRoutes from './app-routes'
+import NavBar from './nav-bar'
 
 class App extends Component {
   render () {
     return (
-      <div>App</div>
+      <div>
+        <NavBar />
+        <Container className='container-app'>
+          <AppRoutes />
+        </Container>
+      </div>
     )
   }
 }
