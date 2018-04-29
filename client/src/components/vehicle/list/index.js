@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { Pagination } from 'semantic-ui-react'
 
 import * as VehicleAPI from '../../../api/vehicles'
 import VehicleGrid from './grid'
@@ -8,7 +9,9 @@ class VehicleList extends PureComponent {
     super()
     this.state = {
       vehicles: [],
-      isLoading: false
+      isLoading: false,
+      totalPages: 1,
+      activePage: 1
     }
   }
 
@@ -16,12 +19,14 @@ class VehicleList extends PureComponent {
     this.fetchVehicles()
   }
 
-  fetchVehicles = () => {
+  fetchVehicles = page => {
     this.setState({ isLoading: true })
-    VehicleAPI.getAll()
+    VehicleAPI.getAll(page)
       .then(response => {
         this.setState({
           vehicles: response.data.data,
+          totalPages: response.data.last_page,
+          activePage: response.data.current_page,
           isLoading: false
         })
       })
@@ -44,13 +49,28 @@ class VehicleList extends PureComponent {
       })
   }
 
+  handlePageChange = (e, { activePage }) => {
+    this.setState({ activePage })
+    this.fetchVehicles(activePage)
+  }
+
   render () {
     return (
-      <VehicleGrid
-        isLoading={this.state.isLoading}
-        vehicles={this.state.vehicles}
-        handleRemove={this.handleRemove}
-      />
+      <React.Fragment>
+        <VehicleGrid
+          isLoading={this.state.isLoading}
+          vehicles={this.state.vehicles}
+          handleRemove={this.handleRemove}
+        />
+        <br />
+        <div style={{ textAlign: 'center' }}>
+          <Pagination
+            activePage={this.state.activePage}
+            totalPages={this.state.totalPages}
+            onPageChange={this.handlePageChange}
+          />
+        </div>
+      </React.Fragment>
     )
   }
 }
