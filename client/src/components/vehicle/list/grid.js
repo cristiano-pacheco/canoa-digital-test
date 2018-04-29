@@ -26,7 +26,7 @@ const VehicleGrid = ({ isLoading, vehicles }) => (
             <Table.Row key={item.id}>
               <Table.Cell>{item.id}</Table.Cell>
               <Table.Cell>
-                <a href=''>{item.vehicle}</a>
+                <Link to={`/edit/${item.id}`}>{item.vehicle}</Link>
               </Table.Cell>
               <Table.Cell>{item.brand}</Table.Cell>
               <Table.Cell textAlign='center'>{item.sold === '1' ? 'Yes' : 'No' }</Table.Cell>

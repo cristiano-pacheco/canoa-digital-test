@@ -9,6 +9,7 @@ const AppRoutes = () => (
   <Switch>
     <Route exact path='/' component={VehicleList} />
     <Route path='/add' component={VehicleForm} />
+    <Route path='/edit/:id' component={VehicleForm} />
     <Route component={NotFound} />
   </Switch>
 )

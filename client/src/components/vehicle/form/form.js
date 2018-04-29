@@ -72,6 +72,7 @@ const VehicleForm = ({
         <Form.Field
           name='sold'
           value={sold}
+          checked={sold}
           label='Sold'
           control='input'
           type='checkbox'
@@ -100,14 +101,14 @@ VehicleForm.propTypes = {
     PropTypes.string,
     PropTypes.number
   ]).isRequired,
-  sold: PropTypes.bool.isRequired,
-  errorMessages: PropTypes.array.isRequired,
-  successMessage: PropTypes.string.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  isLoading: PropTypes.oneOfType([
+  sold: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.number
   ]).isRequired,
+  errorMessages: PropTypes.array.isRequired,
+  successMessage: PropTypes.string.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   handleInputChange: PropTypes.func.isRequired,
   handleCheckBoxChange: PropTypes.func.isRequired
 }
