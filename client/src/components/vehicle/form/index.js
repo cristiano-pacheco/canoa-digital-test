@@ -35,7 +35,7 @@ class VehicleFormContainer extends PureComponent {
       errorMessages: [],
       successMessage: ''
     })
-    VehicleAPI.createVehicle(this.state)
+    VehicleAPI.create(this.state)
       .then(response => {
         this.setState({
           ...initialState,

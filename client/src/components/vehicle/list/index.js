@@ -14,7 +14,7 @@ class VehicleList extends PureComponent {
 
   componentDidMount () {
     this.setState({ isLoading: true })
-    VehicleAPI.getVehicles()
+    VehicleAPI.getAll()
       .then(response => {
         this.setState({
           vehicles: response.data.data,
