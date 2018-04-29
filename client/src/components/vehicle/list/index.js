@@ -13,6 +13,10 @@ class VehicleList extends PureComponent {
   }
 
   componentDidMount () {
+    this.fetchVehicles()
+  }
+
+  fetchVehicles = () => {
     this.setState({ isLoading: true })
     VehicleAPI.getAll()
       .then(response => {
@@ -27,11 +31,25 @@ class VehicleList extends PureComponent {
       })
   }
 
+  handleRemove = id => {
+    this.setState({ isLoading: true })
+    VehicleAPI.remove(id)
+      .then(response => {
+        this.setState({ isLoading: false })
+        this.fetchVehicles()
+      })
+      .catch(error => {
+        console.log(error)
+        this.setState({ isLoading: false })
+      })
+  }
+
   render () {
     return (
       <VehicleGrid
         isLoading={this.state.isLoading}
         vehicles={this.state.vehicles}
+        handleRemove={this.handleRemove}
       />
     )
   }
