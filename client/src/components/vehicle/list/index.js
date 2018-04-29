@@ -1,14 +1,31 @@
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
-
 import { Table, Header, Segment, Button } from 'semantic-ui-react'
+
+import * as VehicleAPI from '../../../api/vehicles'
 
 class VehicleList extends PureComponent {
   constructor () {
     super()
     this.state = {
-      vehicles: []
+      vehicles: [],
+      isLoading: false
     }
+  }
+
+  componentDidMount () {
+    this.setState({ isLoading: true })
+    VehicleAPI.getVehicles()
+      .then(response => {
+        this.setState({
+          vehicles: response.data.data,
+          isLoading: false
+        })
+      })
+      .catch(response => {
+        console.log(response)
+        this.setState({ isLoading: false })
+      })
   }
 
   render () {
@@ -20,39 +37,27 @@ class VehicleList extends PureComponent {
             <Button primary floated='right'>Add</Button>
           </Link>
         </Header>
-        <Segment attached>
+        <Segment attached loading={this.state.isLoading}>
           <Table compact celled selectable>
             <Table.Header>
-              <Table.HeaderCell width={1}>ID</Table.HeaderCell>
-              <Table.HeaderCell>Vehicles</Table.HeaderCell>
-              <Table.HeaderCell>Brand</Table.HeaderCell>
-              <Table.HeaderCell width={1} textAlign='center'>Sold</Table.HeaderCell>
+              <Table.Row>
+                <Table.HeaderCell width={1}>ID</Table.HeaderCell>
+                <Table.HeaderCell>Vehicles</Table.HeaderCell>
+                <Table.HeaderCell>Brand</Table.HeaderCell>
+                <Table.HeaderCell width={1} textAlign='center'>Sold</Table.HeaderCell>
+              </Table.Row>
             </Table.Header>
             <Table.Body>
-              <Table.Row>
-                <Table.Cell>1</Table.Cell>
-                <Table.Cell>
-                  <a href=''>Cruze</a>
-                </Table.Cell>
-                <Table.Cell>Chevrolet</Table.Cell>
-                <Table.Cell textAlign='center'>Yes</Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell>2</Table.Cell>
-                <Table.Cell>
-                  <a href=''>Camaro</a>
-                </Table.Cell>
-                <Table.Cell>Chevrolet</Table.Cell>
-                <Table.Cell textAlign='center'>No</Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell>3</Table.Cell>
-                <Table.Cell>
-                  <a href=''>Onix</a>
-                </Table.Cell>
-                <Table.Cell>Chevrolet</Table.Cell>
-                <Table.Cell textAlign='center'>Yes</Table.Cell>
-              </Table.Row>
+              {this.state.vehicles.map(item => (
+                <Table.Row key={item.id}>
+                  <Table.Cell>{item.id}</Table.Cell>
+                  <Table.Cell>
+                    <a href=''>{item.vehicle}</a>
+                  </Table.Cell>
+                  <Table.Cell>{item.brand}</Table.Cell>
+                  <Table.Cell textAlign='center'>{item.sold === '1' ? 'Yes' : 'No' }</Table.Cell>
+                </Table.Row>
+              ))}
             </Table.Body>
           </Table>
         </Segment>
