@@ -61,6 +61,30 @@ Navigate to **server** folder and run the composer test script
 $ composer test
 ```
 
+## Check Style - Backend
+
+Navigate to **server** folder and run the composer test script
+
+``` bash
+$ composer check-style
+```
+
+## Check Style - Frontend
+
+Navigate to **client** folder and run the composer test script
+
+``` bash
+$ npm run lint
+```
+
+## Fix Style - Frontend
+
+Navigate to **client** folder and run the composer test script
+
+``` bash
+$ npm run lint:fix
+```
+
 ## License
 
 Licensed under the MIT license.
