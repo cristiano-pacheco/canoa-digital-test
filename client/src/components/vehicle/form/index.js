@@ -1,39 +1,66 @@
 import React, { PureComponent } from 'react'
 
-import Form from './form'
+import VehicleForm from './form'
+import * as VehicleAPI from '../../../api/vehicles'
+import { getErrorMessages } from '../../../utils/helpers'
 
-class VehicleForm extends PureComponent {
+const initialState = {
+  isLoading: false,
+  vehicle: '',
+  brand: '',
+  year: '',
+  description: '',
+  sold: 0,
+  successMessage: '',
+  errorMessages: []
+}
+
+class VehicleFormContainer extends PureComponent {
   constructor () {
     super()
-    this.state = {
-      isLoading: false,
-      vehicle: '',
-      brand: '',
-      year: '',
-      description: '',
-      sold: '',
-      successMessage: '',
-      errorMessages: []
-    }
+    this.state = initialState
   }
 
-  handleInputChange = (e) => {
+  handleInputChange = e => {
     this.setState({ [e.target.name]: e.target.value })
   }
 
-  handleSubmit = () => {
+  handleCheckBoxChange = e => {
+    this.setState({ [e.target.name]: e.target.checked })
+  }
 
+  handleSubmit = () => {
+    this.setState({
+      isLoading: true,
+      errorMessages: [],
+      successMessage: ''
+    })
+    VehicleAPI.createVehicle(this.state)
+      .then(response => {
+        this.setState({
+          ...initialState,
+          successMessage: 'Vehicle successfully registered.'
+        })
+      })
+      .catch(error => {
+        if (error.response.status === 422) {
+          const errorMessages = getErrorMessages(error.response.data.errors)
+          return this.setState({ errorMessages, isLoading: false })
+        }
+        this.setState({ isLoading: false })
+      })
   }
 
   render () {
     return (
-      <Form
+      <VehicleForm
         {...this.state}
         handleInputChange={this.handleInputChange}
+        handleCheckBoxChange={this.handleCheckBoxChange}
         handleSubmit={this.handleSubmit}
       />
     )
   }
 }
 
-export default VehicleForm
+export default VehicleFormContainer

@@ -6,7 +6,6 @@ import {
   Header,
   Segment,
   Button,
-  Checkbox,
   Icon
 } from 'semantic-ui-react'
 
@@ -24,7 +23,8 @@ const VehicleForm = ({
   successMessage,
   handleSubmit,
   isLoading,
-  handleInputChange
+  handleInputChange,
+  handleCheckBoxChange
 }) => (
   <div>
     <Header as='h2' attached='top'>
@@ -35,7 +35,7 @@ const VehicleForm = ({
     </Header>
     <Segment attached>
       <Form
-        onSubmit={this.handleSubmit}
+        onSubmit={handleSubmit}
         loading={isLoading}
         autoComplete='off'
       >
@@ -43,14 +43,14 @@ const VehicleForm = ({
           name='vehicle'
           label='Vehicle'
           width={16}
-          onChange={this.handleInputChange}
+          onChange={handleInputChange}
           value={vehicle}
         />
         <Form.Input
           name='brand'
           label='Brand'
           width={16}
-          onChange={this.handleInputChange}
+          onChange={handleInputChange}
           value={brand}
         />
         <Form.TextArea
@@ -58,19 +58,26 @@ const VehicleForm = ({
           label='Description'
           rows={4}
           width={16}
-          onChange={this.handleInputChange}
+          onChange={handleInputChange}
           value={description}
         />
         <Form.Input
           name='year'
           label='Year'
           width={4}
-          onChange={this.handleInputChange}
+          onChange={handleInputChange}
           value={year}
         />
-        <Form.Field>
-          <Checkbox name='sold' label='Sold' />
-        </Form.Field>
+
+        <Form.Field
+          name='sold'
+          value={sold}
+          label='Sold'
+          control='input'
+          type='checkbox'
+          onChange={handleCheckBoxChange}
+        />
+
         <Button type='submit' disabled={isLoading} primary icon>
           <Icon name='save' /> Save
         </Button>
@@ -89,13 +96,20 @@ VehicleForm.propTypes = {
   vehicle: PropTypes.string.isRequired,
   brand: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  year: PropTypes.number.isRequired,
+  year: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]).isRequired,
   sold: PropTypes.bool.isRequired,
   errorMessages: PropTypes.array.isRequired,
   successMessage: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  handleInputChange: PropTypes.func.isRequired
+  isLoading: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.number
+  ]).isRequired,
+  handleInputChange: PropTypes.func.isRequired,
+  handleCheckBoxChange: PropTypes.func.isRequired
 }
 
 export default VehicleForm
